@@ -1,5 +1,5 @@
 {
-	"name": "your-module-name",
+	"name": "peavy-ratc",
 	"version": "0.1.0",
 	"main": "main.js",
 	"scripts": {
@@ -11,10 +11,10 @@
 		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.5.1"
+		"@companion-module/base": "~1.7.0"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^1.4.1"
+		"@companion-module/tools": "^1.4.2"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json"
 }
