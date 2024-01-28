@@ -84,7 +84,7 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number, up to 2 decimal places.'
+						tooltip: 'Variable must return a number, up to 3 decimal places.'
 					},
 
 				],
@@ -99,7 +99,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid value has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(2))
+					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -130,7 +130,7 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a postive number, up to 2 decimal places.'
+						tooltip: 'Variable must return a postive number, up to 3 decimal places.'
 					},
 					{
 						id: 'pos',
@@ -155,7 +155,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid value has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + options.pos + val.toFixed(2))
+					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + options.pos + val.toFixed(3))
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -232,7 +232,7 @@ module.exports = function (self) {
 						label: 'Position',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number between 0 and 1, up to 2 decimal places.'
+						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.'
 					},
 
 				],
@@ -247,7 +247,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid position has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(2))
+					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -464,7 +464,7 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number, up to 2 decimal places.'
+						tooltip: 'Variable must return a number, up to 3 decimal places.'
 					},
 
 				],
@@ -479,7 +479,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid value has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(2))
+					self.addCmdtoQueue(cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)

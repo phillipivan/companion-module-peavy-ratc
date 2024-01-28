@@ -1,6 +1,6 @@
 ## Peavy RATC Control Protocol
 
-This module is for control of NION DSPs. The RATC v1 and v2 are supported. All testing performed against Nion's running firmware 2.0.
+This module is for control of NION DSPs. The RATC v1, v2, and v2 RAW modes are supported. All testing performed against Nion's running firmware 2.0.
 
 This module may also work with older Media Matrix units in RATCv1 mode, but this is untested.
 
@@ -25,7 +25,7 @@ Disable to use RATCv1 commands.
 
 ### Actions
 
-Most actions require refernce to a control alias. The module will auto query and build a drop down list of the control aliases upon connection. You may enter a custom alias if working offline or using a RATC2 RAW control alias. Refer to Peavy's External Control User Guide for further details.
+Most actions require refernce to a control alias. The module will auto query and build a drop down list of the control aliases upon connection. You may enter a custom alias if working offline. Refer to Peavy's External Control User Guide for further details.
 
 ### Variables
 

@@ -36,7 +36,7 @@ module.exports = {
 				id: 'v2',
 				label: 'Use V2',
 				default: true,
-				tooltip: 'Turn off to use RATCv1 for compatibility with old Media Matrix units',
+				tooltip: 'Turn off to use RATCv1',
 			},
 			{
 				type: 'textinput',
