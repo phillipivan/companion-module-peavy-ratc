@@ -5,8 +5,8 @@
 	"description": "Companion Module for control of Peavy DSPs supporting RATCv1 / RATCv2",
 	"version": "0.0.0",
 	"license": "MIT",
-	"repository": "git+https://github.com/bitfocus/companion-module-your-module-name.git",
-	"bugs": "https://github.com/bitfocus/companion-module-your-module-name/issues",
+	"repository": "git+https://github.com/phillipivan/companion-module-peavy-ratc.git",
+	"bugs": "https://github.com/phillipivan/companion-module-peavy-ratc/issues",
 	"maintainers": [
 		{
 			"name": "Phillip Ivan Pietruschka",
@@ -17,10 +17,10 @@
 		"type": "node18",
 		"api": "nodejs-ipc",
 		"apiVersion": "0.0.0",
-		"entrypoint": "../main.js"
+		"entrypoint": "../src/main.js"
 	},
 	"legacyIds": [],
 	"manufacturer": "Peavy",
-	"products": ["MediaMatrix", "NION n3", "NION n6", "NION nE", "NION nX"],
+	"products": [ "NION n3", "NION n6", "NION nE", "NION nX"],
 	"keywords": ["Audio", "DSP", "Cobranet", "Dante"]
 }
