@@ -38,6 +38,23 @@ export const cmd = {
 		changeGroupGet: 'cgg',//changeGroupGet [group] : get changed values from a Change Group
 		changeGroupClear: 'cgc',//changeGroupClear [group] : clear a Change Group (of changed values)
 		changeGroupSchedule: 'cgs',//changeGroupSchedule [group] seconds : schedule recurring Change Group gets
+		long: {
+			help: 'help',
+			logIn: 'logIn',
+			statusGet: 'statusGet',
+			keepAlive: 'keepAlive',
+			quietModeEnable: 'quietModeEnable',
+			quietModeDisable: 'quietModeDisable',
+			controlList: 'controlList',
+			controlGet: 'controlGet',
+			controlSet: 'controlSet',
+			controlPositionSet: 'controlPositionSet',
+			changeGroupControlAdd: 'changeGroupControlAdd',
+			changeGroupControlRemove: 'changeGroupControlRemove',
+			changeGroupGet: 'changeGroupGet',
+			changeGroupClear: 'changeGroupClear',
+			changeGroupSchedule: 'changeGroupSchedule',
+		},
 	},
 }
 
