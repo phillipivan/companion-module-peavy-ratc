@@ -1,5 +1,5 @@
 //const { Regex } = require('@companion-module/base')
-const { SOM, cmd, paramSep, aliasSep, groupSubscribeInterval } = require('./consts.js')
+const { cmd, paramSep, aliasSep, groupSubscribeInterval } = require('./consts.js')
 
 
 module.exports = function (self) {
@@ -251,6 +251,60 @@ module.exports = function (self) {
 						self.log('warn', `an invalid position has been passed: ${val}`)
 						return undefined
 					}
+					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
+				},
+				subscribe: async (action) => {
+					let alias = await self.parseVariablesInString(action.options.alias)
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+				},
+			},
+			controlPositionToggle: {
+				name: 'Control Position Toggle',
+				description: 'Position will be set to 1 - value.',
+				options: [
+					{
+						id: 'alias',
+						type: 'dropdown',
+						label: 'Control Alias',
+						default: '',
+						choices: self.controlAliases,
+						useVariables: true,
+						allowCustom: true,
+						minChoicesForSearch: 20,
+						tooltip: 'Alias must not contain "'
+					},
+					{
+						id: 'value',
+						type: 'textinput',
+						label: 'Position',
+						default: 1,
+						useVariables: true,
+						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.'
+					},
+					{
+						id: 'info',
+						type: 'statictext',
+						label: 'Explanation',
+						tooltip: 'Position will be set to 1 - Position, if you enter the position variable of a button control alias you will have a toggle'
+					},
+
+				],
+				callback: async ({ options }) => {
+					let alias = await self.parseVariablesInString(options.alias)
+					let val = Number(await self.parseVariablesInString(options.value))
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					if (isNaN(val) || val < 0 || val > 1) {
+						self.log('warn', `an invalid position has been passed: ${val}`)
+						return undefined
+					}
+					val = 1 - val
 					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
 				subscribe: async (action) => {

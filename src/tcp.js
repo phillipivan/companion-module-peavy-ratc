@@ -1,5 +1,5 @@
 const { InstanceStatus, TCPHelper } = require('@companion-module/base')
-const { msgDelay, cmd, SOM, EOM, EndSession, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval } = require('./consts.js')
+const { msgDelay, cmd, SOM, EOM, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval } = require('./consts.js')
 
 module.exports = {
 	addCmdtoQueue(msg) {
@@ -62,23 +62,9 @@ module.exports = {
 			this.addCmdtoQueue(cmd.ratcV2.keepAlive + paramSep + keepAliveValue)
 			this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 			this.addCmdtoQueue(cmd.ratcV2.controlList)
-			//start cmdQueue on login confirmation
-			//this.startCmdQueue()
-			//this.startKeepAlive()
-			//this.stopTimeOut()
 		} else {
-			if (this.config.username !== ''){ 
-				this.sendCommand(this.config.username)
-				if (this.config.password !== ''){
-					this.sendCommand(this.config.username)
-				}
-			}
 			this.addCmdtoQueue(cmd.ratcV1.statusGet)
 			this.addCmdtoQueue(cmd.ratcV1.controlList)
-			//starting command queue without waiting for login confirmation sinces can't test
-			this.startCmdQueue()
-			this.startKeepAlive()
-			this.stopTimeOut()
 		}
 	},
 
