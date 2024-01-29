@@ -136,7 +136,7 @@ module.exports = function (self) {
 						id: 'pos',
 						type: 'dropdown',
 						label: '+/-',
-						default: 0,
+						default: '++',
 						choices: [
 							{ id: '++', label: 'Positive' },
 							{ id: '--', label: 'Negative' },

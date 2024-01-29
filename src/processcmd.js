@@ -16,13 +16,14 @@ module.exports = {
 				{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
 				{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
 			)
-			this.updateVariableDefinitions
+			this.setVariableDefinitions(this.varList)
 			this.updateActions() // export actions
 			this.updateFeedbacks() // export feedbacks
 			let aliasName = []
 			aliasName[`controlAliasName_${alias[1]}`] = alias[1]
 			this.setVariableValues(aliasName)
 			this.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
+			return true
 		}
 		let params = reply.split(' ')
 		switch (params[0]) {
