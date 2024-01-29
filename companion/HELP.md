@@ -31,7 +31,7 @@ Most actions require refernce to a control alias. The module will auto query and
 
 The detected control aliases, their values & positions are returned as variables. 
 
-Variables are not defined when in RATC v2 RAW mode to preseve system resources. They can still be referenced if you follow the pattern of $(yourModuleName:controlAliasValue_rawAlias) or  $(yourModulePosition:controlAliasValue_rawAlias). They will not have a value assigned until used by an action.
+Variables are not defined when in RATC v2 RAW mode to preseve system resources. They can still be referenced if you follow the pattern of $(yourModuleName:controlAliasValue_rawAlias) or  $(yourModuleName:controlAliasPosition_rawAlias). They will not have a value assigned until used by an action.
 
 ## Version History
 
