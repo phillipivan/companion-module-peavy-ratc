@@ -15,7 +15,7 @@ class PEAVY_RATC extends InstanceBase {
 		Object.assign(this, { ...config, ...tcp, ...processCmd, ...choices })
 		this.cmdQueue = []
 		this.varList = []
-		this.controlAliases = {}
+		this.controlAliases = []
 	}
 	async init(config) {
 		this.updateStatus('Starting')

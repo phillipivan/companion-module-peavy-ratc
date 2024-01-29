@@ -1,14 +1,30 @@
-const { resp, cmd, alert } = require('./consts.js')
+const { resp, cmd, alert, aliasSep, paramSep } = require('./consts.js')
 
 module.exports = {
 	async processCmd(chunk) {
 		let reply = chunk.toString()
+		this.log('debug', `response recieved: ${reply}`)
 		if (chunk[0] == alert) {
 			this.log('warn', `${reply}`)
 			return undefined
 		}
+		if (reply[0] === aliasSep) {
+			let alias = reply.split(aliasSep)
+			this.controlAliases.push({ id: alias[1], label: alias[1] })
+			this.varList.push(
+				{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
+				{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
+				{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
+			)
+			this.updateVariableDefinitions
+			this.updateActions() // export actions
+			this.updateFeedbacks() // export feedbacks
+			let aliasName = []
+			aliasName[`controlAliasName_${alias[1]}`] = alias[1]
+			this.setVariableValues(aliasName)
+			this.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
+		}
 		let params = reply.split(' ')
-		//this.log('debug', `response recieved: ${reply}`)
 		switch (params[0]) {
 			case resp.ratcV1.username:
 				this.sendCommand(this.config.username)
@@ -17,6 +33,7 @@ module.exports = {
 				this.sendCommand(this.config.password)
 				break
 			case resp.ratcV1.ratcVersion:
+				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.welcome:
 				this.updateStatus('ok', 'Logged in')
@@ -30,26 +47,36 @@ module.exports = {
 				this.updateStatus('error', 'Overflow')
 				return undefined	
 			case resp.ratcV1.statusIs:
+				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.valueIs:
 				break
 			case resp.ratcV1.badArgumentCount:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.unlistedGroup:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.addedToChangeGroup:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV1.removedFromChangeGroup:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV1.invalidChangeGroup:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.clearedChangeGroup:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV1.numberOfChanges:
+				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.notRunning:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.badCommand:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.loginFailed:
 				this.log('error', 'Password is incorrect')
@@ -58,12 +85,16 @@ module.exports = {
 				this.startTimeOut()
 				break
 			case resp.ratcV1.startControlGroupList:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV1.endControlGroupList:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.statusIs:
+				this.log('info', `${reply}`)
 				break
 			case resp.ratcV2.valueIs:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.loggedIn:
 				this.updateStatus('ok', 'Logged in')
@@ -73,36 +104,50 @@ module.exports = {
 				this.startKeepAlive()
 				return true
 			case resp.ratcV2.keepAlive:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.quietModeEnabled:
+				this.log('warn', `${reply} - Quiet Mode Should be disabled for correct operation of this module`)
 				break
 			case resp.ratcV2.quietModeDisabled:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.changeGroupControlAdded:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.changeGroupControlRemoved:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.changeGroupCleared:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.changeGroupChanges:
+				this.log('debug', `${reply}`)
 				break
 			case resp.ratcV2.badCommand:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV2.badArgumentCount:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV2.overflow:
 				this.log('error', `${reply}`)
 				this.updateStatus('error', 'Overflow')
 				return undefined
 			case resp.ratcV2.unlistedControl:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV2.invalidChangeGroup:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV2.commandFailed:
+				this.log('error', `${reply}`)
 				break
 			case resp.ratcV2.commandUnsupported:
+				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV2.notLoggedIn:
+				this.log('error', `${reply}`)
 				break
 			case resp.ratcV2.loginFailed:
 				this.log('error', 'Password is incorrect')

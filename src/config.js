@@ -5,7 +5,7 @@ module.exports = {
 		//let oldConfig = this.config
 		this.config = config
 		this.varList = []
-		this.controlAliases = {}
+		this.controlAliases = []
 		this.initTCP()
 		this.initVariables()
 		this.updateActions()

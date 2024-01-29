@@ -6,7 +6,7 @@ module.exports = function (self) {
 	if (self.config.v2) {
 		//RATCv2 actions
 		self.setActionDefinitions({
-			help: {
+/* 			help: {
 				name: 'Help',
 				description: 'Returns the RATC Help to the lpgs.',
 				options: [],
@@ -63,7 +63,7 @@ module.exports = function (self) {
 				},
 				//learn: () => {},
 				//subscribe: () => {},
-			},
+			}, */
 			controlSet: {
 				name: 'Control Set',
 				description: 'Set the value of a control',
@@ -414,7 +414,7 @@ module.exports = function (self) {
 	} else {
 		//RATCv1 Actions
 		self.setActionDefinitions({
-			help: {
+			/* help: {
 				name: 'Help',
 				description: 'Returns the RATC Help to the lpgs.',
 				options: [],
@@ -443,7 +443,7 @@ module.exports = function (self) {
 				},
 				//learn: () => {},
 				//subscribe: () => {},
-			},
+			}, */
 			controlSet: {
 				name: 'Control Set',
 				description: 'Set the value of a control',
