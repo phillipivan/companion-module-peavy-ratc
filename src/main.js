@@ -13,6 +13,7 @@ class PEAVY_RATC extends InstanceBase {
 	constructor(internal) {
 		super(internal)
 		Object.assign(this, { ...config, ...tcp, ...processCmd })
+		this.instanceOptions.disableVariableValidation = true
 		this.cmdQueue = []
 		this.varList = []
 		this.controlAliases = []

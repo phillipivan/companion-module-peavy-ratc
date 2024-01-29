@@ -5,7 +5,7 @@ module.exports = {
 		this.updateActions() // export actions
 		this.updateFeedbacks() // export feedbacks
 	},
-	
+
 	startActionUpdateTimer(){
 		if (this.actionTimer) {
 			clearTimeout(this.actionTimer)
@@ -68,10 +68,12 @@ module.exports = {
 				break
 			case resp.ratcV1.welcome:
 				this.updateStatus('ok', 'Logged in')
-				this.log('info', 'OK: Logged In')
+				this.log('info', `${reply}`)
 				this.stopTimeOut()
 				this.startCmdQueue()
 				this.startKeepAlive()
+				this.subscribeActions()
+				this.subscribeFeedbacks()
 				return true
 			case resp.ratcV1.overflow:
 				this.log('error', `${reply}`)
@@ -133,6 +135,8 @@ module.exports = {
 				this.stopTimeOut()
 				this.startCmdQueue()
 				this.startKeepAlive()
+				this.subscribeActions()
+				this.subscribeFeedbacks()
 				return true
 			case resp.ratcV2.keepAlive:
 				this.log('debug', `${reply}`)
