@@ -92,7 +92,7 @@ module.exports = {
 			this.addCmdtoQueue(SOM + cmd.ratcV1.changeGroupGet)
 		}
 		this.keepAliveTimer = setTimeout(() => {
-			this.keepAlive()
+			this.keepAlive() 
 		}, keepAliveInterval)
 	},
 
