@@ -141,10 +141,11 @@ module.exports = {
 	initTCP() {
 		this.receiveBuffer = ''
 		if (this.socket !== undefined) {
-			this.sendCommand(EndSession)
+			//this.sendCommand(EndSession)
 			this.stopCmdQueue()
 			this.stopKeepAlive()
 			this.startTimeOut()
+			this.stopActionUpdateTimer()
 			this.socket.destroy()
 			delete this.socket
 		}
@@ -162,6 +163,7 @@ module.exports = {
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
+				this.stopActionUpdateTimer()
 			})
 			this.socket.on('connect', () => {
 				this.log('info', `Connected to ${this.config.host}:${this.config.port}`)

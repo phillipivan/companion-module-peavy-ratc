@@ -76,6 +76,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -122,6 +123,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -178,6 +180,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -224,6 +227,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -270,6 +274,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -328,6 +333,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -456,6 +462,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -502,6 +509,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 					{
@@ -548,6 +556,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 
@@ -576,6 +585,7 @@ module.exports = function (self) {
 						choices: self.controlAliases,
 						useVariables: true,
 						allowCustom: true,
+						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "'
 					},
 				],

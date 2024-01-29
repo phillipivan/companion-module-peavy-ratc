@@ -34,8 +34,9 @@ class PEAVY_RATC extends InstanceBase {
 		this.stopKeepAlive()
 		this.stopCmdQueue()
 		this.stopTimeOut()
+		this.stopActionUpdateTimer()
 		if (this.socket) {
-			this.sendCommand(EndSession)
+			//this.sendCommand(EndSession) no clear disconnect
 			this.socket.destroy()
 		}
 		this.updateStatus(InstanceStatus.Disconnected)

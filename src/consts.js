@@ -7,6 +7,7 @@ export const SOM = ''
 export const EOM = '\r\n'
 export const paramSep = ' '
 export const aliasSep = '"'
+export const rawAliasIdent ='//devices/'
 export const alert = 0x07
 export const EndSession = 'exit'
 export const unknown = 'unknown'

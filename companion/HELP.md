@@ -31,6 +31,8 @@ Most actions require refernce to a control alias. The module will auto query and
 
 The detected control aliases and their values are returned as variables. 
 
+Variables are not created when in RATC v2 RAW mode to preseve system resources.
+
 ## Version History
 
 ### Version 1.0.0

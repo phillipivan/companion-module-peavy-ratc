@@ -1,24 +1,54 @@
-const { resp, cmd, alert, aliasSep, paramSep } = require('./consts.js')
+const { resp, cmd, alert, aliasSep, paramSep, rawAliasIdent } = require('./consts.js')
 
 module.exports = {
+	actionUpdate() {
+		this.updateActions() // export actions
+		this.updateFeedbacks() // export feedbacks
+	},
+	
+	startActionUpdateTimer(){
+		if (this.actionTimer) {
+			clearTimeout(this.actionTimer)
+			delete this.actionTimer
+		}
+		this.actionTimer = setTimeout(() => {
+			this.actionUpdate()
+		}, 30000) 
+	},
+
+	stopActionUpdateTimer() {
+		clearTimeout(this.actionTimer)
+		delete this.actionTimer
+	},
+
 	async processCmd(chunk) {
 		let reply = chunk.toString()
-		this.log('debug', `response recieved: ${reply}`)
+		//this.log('debug', `response recieved: ${reply}`)
 		if (chunk[0] == alert) {
 			this.log('warn', `${reply}`)
 			return undefined
 		}
 		if (reply[0] === aliasSep) {
 			let alias = reply.split(aliasSep)
+			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
+			if (alias[1].search(rawAliasIdent) >= 0) {
+				//dont create variables when in RAW mode as Companion GRINDS TO A HALT
+				if (this.actionTimer) {
+					return true
+				} else {
+					this.startActionUpdateTimer()
+					return true
+				}
+			}
 			this.varList.push(
 				{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
 				{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
 				{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
 			)
-			this.setVariableDefinitions(this.varList)
 			this.updateActions() // export actions
 			this.updateFeedbacks() // export feedbacks
+			this.setVariableDefinitions(this.varList)
 			let aliasName = []
 			aliasName[`controlAliasName_${alias[1]}`] = alias[1]
 			this.setVariableValues(aliasName)
