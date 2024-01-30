@@ -16,6 +16,39 @@ module.exports = function (self) {
 				//learn: () => {},
 				//subscribe: () => {},
 			},
+			controlGet: {
+				name: 'Control Get',
+				description: 'Get the value of a control',
+				options: [
+					{
+						id: 'alias',
+						type: 'dropdown',
+						label: 'Control Alias',
+						default: '',
+						choices: self.controlAliases,
+						useVariables: true,
+						allowCustom: true,
+						minChoicesForSearch: 20,
+						tooltip: 'Alias must not contain "'
+					},
+				],
+				callback: async ({ options }) => {
+					let alias = await self.parseVariablesInString(options.alias)
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+				},
+				subscribe: async (action) => {
+					let alias = await self.parseVariablesInString(action.options.alias)
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+				},
+			},
 			controlSet: {
 				name: 'Control Set',
 				description: 'Set the value of a control',
@@ -435,6 +468,39 @@ module.exports = function (self) {
 				},
 				//learn: () => {},
 				//subscribe: () => {},
+			},
+			controlGet: {
+				name: 'Control Get',
+				description: 'Get the value of a control',
+				options: [
+					{
+						id: 'alias',
+						type: 'dropdown',
+						label: 'Control Alias',
+						default: '',
+						choices: self.controlAliases,
+						useVariables: true,
+						allowCustom: true,
+						minChoicesForSearch: 20,
+						tooltip: 'Alias must not contain "'
+					},
+				],
+				callback: async ({ options }) => {
+					let alias = await self.parseVariablesInString(options.alias)
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
+				},
+				subscribe: async (action) => {
+					let alias = await self.parseVariablesInString(action.options.alias)
+					if (alias.indexOf(aliasSep) !== -1) {
+						self.log('warn', `an invalid alias has been passed: ${alias}`)
+						return undefined
+					}
+					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
+				},
 			},
 			controlSet: {
 				name: 'Control Set',

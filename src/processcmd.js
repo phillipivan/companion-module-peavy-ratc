@@ -35,6 +35,9 @@ module.exports = {
 		if (reply[0] === aliasSep) {
 			let alias = reply.split(aliasSep)
 			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
+			if (alias[1].search(paramSep) >= 0) {
+				alias[1] = alias[1].replace(' ', '_')
+			}
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			if (alias[1].search(rawAliasIdent) >= 0) {
 				//don't create variable definitions when in RAW mode
@@ -99,6 +102,9 @@ module.exports = {
 				break
 			case resp.ratcV1.valueIs:
 				this.log('info', `${reply}`)
+				if (aliases[1].search(paramSep) >= 0) {
+					aliases[1] = aliases[1].replace(' ', '_')
+				}
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
 				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
 				this.setVariableValues(aliasValues)
@@ -147,6 +153,9 @@ module.exports = {
 				break
 			case resp.ratcV2.valueIs:
 				this.log('debug', `${reply}`)
+				if (aliases[1].search(paramSep) >= 0) {
+					aliases[1] = aliases[1].replace(' ', '_')
+				}
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
 				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
 				this.setVariableValues(aliasValues)
