@@ -27,17 +27,16 @@ module.exports = {
 
 	async processCmd(chunk) {
 		let reply = chunk.toString().trim()
-		this.log('debug', `response recieved: ${reply}`)
+		//this.log('debug', `response recieved: ${reply}`)
 		if (chunk[0] == alert) {
 			this.log('warn', `${reply}`)
 			return undefined
 		}
 		let alias = reply.split(aliasSep)
 		if (reply[0] === aliasSep) {
-			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
 			if (alias[1].search(rawAliasIdent) >= 0) {
 				//don't create variable definitions when in RAW mode
-				alias[1] = alias[1].replace(' ', '_').replace('/','')
+				//alias[1] = alias[1].replace(' ', '_').replace('/','')
 				this.controlAliases.push({ id: alias[1], label: alias[1] })
 				if (this.actionTimer) {
 					return true
@@ -71,7 +70,12 @@ module.exports = {
 		if (aliases.length == 3) {
 			//this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
 			valPos = aliases[2].trim().split(paramSep)
-			valPos[1] = valPos[1] === undefined ? null : Number(valPos[1])
+			for (let i = 1; i < valPos.length; i ++) {
+				valPos[i] = Number(valPos[i])
+				if (!isNaN(valPos[i])) {
+					valPos[1] = valPos[i]
+				}
+			}
 		} else if (aliases.length == 5) {
 			valPos[0] = aliases[3]
 			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
