@@ -252,8 +252,8 @@ module.exports = function (self) {
 					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
-			controlPositionToggle: {
-				name: 'Control Position Toggle',
+			controlPositionInvert: {
+				name: 'Control Position Invert',
 				description: 'Position will be set to 1 - value.',
 				options: [
 					{

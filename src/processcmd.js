@@ -46,7 +46,7 @@ module.exports = {
 					return true
 				}
 			}
-			alias[1] = alias[1].replace(' ', '_').replace('/','')
+			alias[1] = alias[1].replaceAll(/\/| /g,'_')
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			this.varList.push(
 				{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
@@ -110,7 +110,7 @@ module.exports = {
 				break
 			case resp.ratcV1.valueIs:
 				this.log('info', `${reply}`)
-				aliases[1] = aliases[1].replace(' ', '_').replace('/','')
+				aliases[1] = aliases[1].replaceAll(/\/| /g,'_')
 				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
 				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
@@ -155,7 +155,7 @@ module.exports = {
 				this.log('debug', `${reply}`)
 				this.log('debug', `params: ${params.toString()}`)
 				if (params[1] == resp.ratcV1.aliasControlGroupList) {
-					alias[1] = alias[1].replace(' ', '_').replace('/','')
+					alias[1] = alias[1].replaceAll(/\/| /g,'_')
 					this.controlAliases.push({ id: alias[1], label: alias[1] })
 					this.varList.push(
 						{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
