@@ -65,14 +65,17 @@ module.exports = {
 		}
 		let params = reply.split(paramSep)
 		let aliases = reply.split(aliasSep)
+		this.log('debug', `split aliases length ${aliases.length} value: ${aliases.toString()}`)
 		let valPos = []
 		let aliasValues = []
 		if (aliases.length == 3) {
+			this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
 			valPos = aliases[2].split(paramSep)
-			valPos[1] = valPos[1] === undefined ? null : Number(valPos[1])
+			this.log('debug', `valPos ${valPos.toString()}`)
+			valPos[2] = valPos[2] === undefined ? null : Number(valPos[1])
 		} else if (aliases.length == 5) {
-			valPos[0] = aliases[3]
-			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
+			valPos[1] = aliases[3].split(paramSep)
+			valPos[2] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
 		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
@@ -105,8 +108,9 @@ module.exports = {
 				if (aliases[1].search(paramSep) >= 0) {
 					aliases[1] = aliases[1].replace(' ', '_')
 				}
-				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
-				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[1]} position: ${valPos[2]}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[1]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[2]
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV1.badArgumentCount:
@@ -156,8 +160,9 @@ module.exports = {
 				if (aliases[1].search(paramSep) >= 0) {
 					aliases[1] = aliases[1].replace(' ', '_')
 				}
-				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
-				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[1]} position: ${valPos[2]}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[1]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[2]
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV2.loggedIn:
