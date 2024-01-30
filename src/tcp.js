@@ -41,7 +41,7 @@ module.exports = {
 	sendCommand(msg) {
 		if (msg !== undefined) {
 			if (this.socket !== undefined && this.socket.isConnected) {
-				//this.log('debug', `Sending Command: ${msg}`)
+				this.log('debug', `Sending Command: ${msg}`)
 				this.socket.send(msg + EOM)
 				return true
 			} else {
@@ -63,8 +63,8 @@ module.exports = {
 			this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 			this.addCmdtoQueue(cmd.ratcV2.controlList)
 		} else {
-			this.addCmdtoQueue(cmd.ratcV1.statusGet)
-			this.addCmdtoQueue(cmd.ratcV1.controlList)
+			//this.addCmdtoQueue(cmd.ratcV1.statusGet)
+			//this.addCmdtoQueue(cmd.ratcV1.controlList)
 		}
 	},
 

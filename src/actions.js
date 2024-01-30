@@ -272,7 +272,7 @@ module.exports = function (self) {
 					},
 					{
 						id: 'info',
-						type: 'statictext',
+						type: 'static-text',
 						label: 'Explanation',
 						tooltip: 'Position will be set to 1 - Position, if you enter the position variable of a button control alias you will have a toggle'
 					},

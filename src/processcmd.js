@@ -17,7 +17,7 @@ module.exports = {
 		}
 		this.actionTimer = setTimeout(() => {
 			this.actionUpdate()
-		}, 10000) 
+		}, 30000) 
 	},
 
 	stopActionUpdateTimer() {
@@ -35,9 +35,7 @@ module.exports = {
 		if (reply[0] === aliasSep) {
 			let alias = reply.split(aliasSep)
 			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
-			if (alias[1].search(paramSep) >= 0) {
-				alias[1] = alias[1].replace(' ', '_')
-			}
+			alias[1] = alias[1].replace(' ', '_').replace('/','')
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			if (alias[1].search(rawAliasIdent) >= 0) {
 				//don't create variable definitions when in RAW mode
@@ -70,12 +68,12 @@ module.exports = {
 		let aliasValues = []
 		if (aliases.length == 3) {
 			this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
-			valPos = aliases[2].split(paramSep)
+			valPos = aliases[2].trim().split(paramSep)
 			this.log('debug', `valPos ${valPos.toString()}`)
-			valPos[2] = valPos[2] === undefined ? null : Number(valPos[1])
+			valPos[1] = valPos[1] === undefined ? null : Number(valPos[1])
 		} else if (aliases.length == 5) {
-			valPos[1] = aliases[3].split(paramSep)
-			valPos[2] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
+			valPos[0] = aliases[3]
+			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
 		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
@@ -95,6 +93,8 @@ module.exports = {
 				this.startKeepAlive()
 				this.subscribeActions()
 				this.subscribeFeedbacks()
+				this.addCmdtoQueue(cmd.ratcV1.statusGet)
+				this.addCmdtoQueue(cmd.ratcV1.controlList)
 				return true
 			case resp.ratcV1.overflow:
 				this.log('error', `${reply}`)
@@ -105,12 +105,10 @@ module.exports = {
 				break
 			case resp.ratcV1.valueIs:
 				this.log('info', `${reply}`)
-				if (aliases[1].search(paramSep) >= 0) {
-					aliases[1] = aliases[1].replace(' ', '_')
-				}
-				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[1]} position: ${valPos[2]}`)
-				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[1]
-				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[2]
+				aliases[1] = aliases[1].replace(' ', '_').replace('/','')
+				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV1.badArgumentCount:
@@ -142,6 +140,7 @@ module.exports = {
 				break
 			case resp.ratcV1.loginFailed:
 				this.log('error', 'Password is incorrect')
+				this.updateStatus('bad_config')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
@@ -157,12 +156,10 @@ module.exports = {
 				break
 			case resp.ratcV2.valueIs:
 				this.log('debug', `${reply}`)
-				if (aliases[1].search(paramSep) >= 0) {
-					aliases[1] = aliases[1].replace(' ', '_')
-				}
-				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[1]} position: ${valPos[2]}`)
-				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[1]
-				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[2]
+				aliases[1] = aliases[1].replace(' ', '_').replace('/','')
+				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV2.loggedIn:
@@ -223,6 +220,7 @@ module.exports = {
 				break
 			case resp.ratcV2.loginFailed:
 				this.log('error', 'Password is incorrect')
+				this.updateStatus('bad_config')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
