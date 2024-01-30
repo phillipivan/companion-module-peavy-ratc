@@ -77,10 +77,10 @@ module.exports = {
 		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
-				this.sendCommand(this.config.username)
+				//this.sendCommand(this.config.username)
 				break
 			case resp.ratcV1.password:
-				this.sendCommand(this.config.password)
+				//this.sendCommand(this.config.password)
 				break
 			case resp.ratcV1.ratcVersion:
 				this.log('info', `${reply}`)
@@ -140,7 +140,7 @@ module.exports = {
 				break
 			case resp.ratcV1.loginFailed:
 				this.log('error', 'Password is incorrect')
-				this.updateStatus('bad_config')
+				this.updateStatus('error', 'Username / Password is incorrect')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
@@ -220,7 +220,7 @@ module.exports = {
 				break
 			case resp.ratcV2.loginFailed:
 				this.log('error', 'Password is incorrect')
-				this.updateStatus('bad_config')
+				this.updateStatus('error', 'Username / Password is incorrect')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()

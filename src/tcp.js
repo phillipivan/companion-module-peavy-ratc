@@ -63,8 +63,8 @@ module.exports = {
 			this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 			this.addCmdtoQueue(cmd.ratcV2.controlList)
 		} else {
-			//this.addCmdtoQueue(cmd.ratcV1.statusGet)
-			//this.addCmdtoQueue(cmd.ratcV1.controlList)
+			this.sendCommand(this.config.username)
+			this.sendCommand(this.config.password)
 		}
 	},
 
