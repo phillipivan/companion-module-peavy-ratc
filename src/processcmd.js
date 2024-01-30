@@ -17,7 +17,7 @@ module.exports = {
 		}
 		this.actionTimer = setTimeout(() => {
 			this.actionUpdate()
-		}, 30000) 
+		}, 10000) 
 	},
 
 	stopActionUpdateTimer() {
@@ -32,21 +32,23 @@ module.exports = {
 			this.log('warn', `${reply}`)
 			return undefined
 		}
+		let alias = reply.split(aliasSep)
 		if (reply[0] === aliasSep) {
-			let alias = reply.split(aliasSep)
 			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
-			alias[1] = alias[1].replace(' ', '_').replace('/','')
-			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			if (alias[1].search(rawAliasIdent) >= 0) {
 				//don't create variable definitions when in RAW mode
+				alias[1] = alias[1].replace(' ', '_').replace('/','')
+				this.controlAliases.push({ id: alias[1], label: alias[1] })
 				if (this.actionTimer) {
 					return true
 				} else {
-					//create 30 second timer to allow processing of raw control aliases before updating actions.
+					//create 10 second timer to allow processing of raw control aliases before updating actions.
 					this.startActionUpdateTimer()
 					return true
 				}
 			}
+			alias[1] = alias[1].replace(' ', '_').replace('/','')
+			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			this.varList.push(
 				{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
 				{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
@@ -148,6 +150,22 @@ module.exports = {
 			case resp.ratcV1.startControlGroupList:
 				this.log('debug', `${reply}`)
 				this.log('debug', `params: ${params.toString()}`)
+				if (params[1] == resp.ratcV1.aliasControlGroupList) {
+					alias[1] = alias[1].replace(' ', '_').replace('/','')
+					this.controlAliases.push({ id: alias[1], label: alias[1] })
+					this.varList.push(
+						{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
+						{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
+						{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
+					)
+					this.updateActions() // export actions
+					this.updateFeedbacks() // export feedbacks
+					this.setVariableDefinitions(this.varList)
+					let aliasName = []
+					aliasName[`controlAliasName_${alias[1]}`] = alias[1]
+					this.setVariableValues(aliasName)
+					this.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
+				}
 				break
 			case resp.ratcV1.endControlGroupList:
 				this.log('debug', `${reply}`)

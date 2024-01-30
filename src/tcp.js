@@ -71,10 +71,8 @@ module.exports = {
 	keepAlive() {
 		//track timer requests
 		if (this.config.v2) {
-			this.addCmdtoQueue(cmd.ratcV2.statusGet)
 			this.addCmdtoQueue(cmd.ratcV2.changeGroupGet)
 		} else {
-			this.addCmdtoQueue(cmd.ratcV1.statusGet)
 			this.addCmdtoQueue(cmd.ratcV1.changeGroupGet)
 		}
 		this.keepAliveTimer = setTimeout(() => {

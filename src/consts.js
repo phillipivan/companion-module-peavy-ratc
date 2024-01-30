@@ -78,6 +78,7 @@ export const resp = {
 		ratcVersion: 'RATCVersion',
 		welcome: 'Welcome',
 		startControlGroupList: '{',
+		aliasControlGroupList: 'group:',
 		endControlGroupList: '}',
 	},
 	ratcV2: {
