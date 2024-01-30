@@ -27,7 +27,7 @@ module.exports = {
 
 	async processCmd(chunk) {
 		let reply = chunk.toString().trim()
-		//this.log('debug', `response recieved: ${reply}`)
+		this.log('debug', `response recieved: ${reply}`)
 		if (chunk[0] == alert) {
 			this.log('warn', `${reply}`)
 			return undefined
@@ -42,7 +42,7 @@ module.exports = {
 				if (this.actionTimer) {
 					return true
 				} else {
-					//create 10 second timer to allow processing of raw control aliases before updating actions.
+					//create 30 second timer to allow processing of raw control aliases before updating actions.
 					this.startActionUpdateTimer()
 					return true
 				}
@@ -67,9 +67,8 @@ module.exports = {
 		let valPos = []
 		let aliasValues = []
 		if (aliases.length == 3) {
-			this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
+			//this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
 			valPos = aliases[2].trim().split(paramSep)
-			this.log('debug', `valPos ${valPos.toString()}`)
 			valPos[1] = valPos[1] === undefined ? null : Number(valPos[1])
 		} else if (aliases.length == 5) {
 			valPos[0] = aliases[3]
@@ -133,7 +132,8 @@ module.exports = {
 				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.notRunning:
-				this.log('warn', `${reply}`)
+				this.log('error', `${reply}`)
+				this.updateStatus('error', 'Project not running')
 				break
 			case resp.ratcV1.badCommand:
 				this.log('warn', `${reply}`)
@@ -147,6 +147,7 @@ module.exports = {
 				break
 			case resp.ratcV1.startControlGroupList:
 				this.log('debug', `${reply}`)
+				this.log('debug', `params: ${params.toString()}`)
 				break
 			case resp.ratcV1.endControlGroupList:
 				this.log('debug', `${reply}`)
@@ -217,6 +218,7 @@ module.exports = {
 				break
 			case resp.ratcV2.notLoggedIn:
 				this.log('error', `${reply}`)
+				this.sendCommand(cmd.ratcV2.logIn + paramSep + this.config.username + paramSep + this.config.password)
 				break
 			case resp.ratcV2.loginFailed:
 				this.log('error', 'Password is incorrect')

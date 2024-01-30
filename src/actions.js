@@ -47,6 +47,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlSet: {
@@ -94,6 +95,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlSetInc: {
@@ -151,6 +153,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlSetString: {
@@ -198,6 +201,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlPositionSet: {
@@ -245,6 +249,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlPositionToggle: {
@@ -299,6 +304,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV2.changeGroupControlAdd + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			changeGroupControlAdd: {
@@ -500,6 +506,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV1.changeGroupAddControl + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlSet: {
@@ -547,6 +554,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV1.changeGroupAddControl + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			controlSetString: {
@@ -594,6 +602,7 @@ module.exports = function (self) {
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV1.changeGroupAddControl + paramSep + aliasSep + alias + aliasSep)
 				},
 			},
 			changeGroupControlAdd: {
