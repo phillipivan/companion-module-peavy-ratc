@@ -1,5 +1,5 @@
 const { InstanceStatus, TCPHelper } = require('@companion-module/base')
-const { msgDelay, cmd, SOM, EOM, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval } = require('./consts.js')
+const { msgDelay, cmd, EOM, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval } = require('./consts.js')
 
 module.exports = {
 	addCmdtoQueue(msg) {
@@ -71,11 +71,11 @@ module.exports = {
 	keepAlive() {
 		//track timer requests
 		if (this.config.v2) {
-			this.addCmdtoQueue(SOM + cmd.ratcV2.statusGet)
-			this.addCmdtoQueue(SOM + cmd.ratcV2.changeGroupGet)
+			this.addCmdtoQueue(cmd.ratcV2.statusGet)
+			this.addCmdtoQueue(cmd.ratcV2.changeGroupGet)
 		} else {
-			this.addCmdtoQueue(SOM + cmd.ratcV1.statusGet)
-			this.addCmdtoQueue(SOM + cmd.ratcV1.changeGroupGet)
+			this.addCmdtoQueue(cmd.ratcV1.statusGet)
+			this.addCmdtoQueue(cmd.ratcV1.changeGroupGet)
 		}
 		this.keepAliveTimer = setTimeout(() => {
 			this.keepAlive() 
