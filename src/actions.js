@@ -6,64 +6,16 @@ module.exports = function (self) {
 	if (self.config.v2) {
 		//RATCv2 actions
 		self.setActionDefinitions({
-/* 			help: {
-				name: 'Help',
-				description: 'Returns the RATC Help to the lpgs.',
-				options: [],
-				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV2.help)
-				},
-				//learn: () => {},
-				//subscribe: () => {},
-			},
-			logIn: {
-				name: 'Log In',
-				description: 'Logs in to the DSP, should be done automatically.',
-				options: [
-					{
-						id: 'username',
-						type: 'textinput',
-						label: 'Username',
-						default: self.config.username,
-						useVariables: true,
-					},
-					{
-						id: 'password',
-						type: 'textinput',
-						label: 'Password',
-						default: self.config.password,
-						useVariables: true,
-					},
-				],
-				callback: async ({options}) => {
-					let user = await self.parseVariablesInString(options.username)
-					let pass = await self.parseVariablesInString(options.password)
-					let msg = user == '' ? '' : pass == '' ? paramSep + user : paramSep + user + paramSep + pass
-					self.addCmdtoQueue(SOM + cmd.ratcV2.logIn + msg)
-				},
-				//learn: () => {},
-				//subscribe: () => {},
-			},
 			statusGet: {
 				name: 'Status Get',
 				description: 'Returns the DSP Status and project name',
 				options: [],
 				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV2.statusGet)
+					self.addCmdtoQueue(cmd.ratcV2.statusGet)
 				},
 				//learn: () => {},
 				//subscribe: () => {},
 			},
-			controList: {
-				name: 'Control List',
-				description: 'Returns the defined control aliases',
-				options: [],
-				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV2.controlList)
-				},
-				//learn: () => {},
-				//subscribe: () => {},
-			}, */
 			controlSet: {
 				name: 'Control Set',
 				description: 'Set the value of a control',
@@ -474,36 +426,16 @@ module.exports = function (self) {
 	} else {
 		//RATCv1 Actions
 		self.setActionDefinitions({
-			/* help: {
-				name: 'Help',
-				description: 'Returns the RATC Help to the lpgs.',
-				options: [],
-				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV1.help)
-				},
-				//learn: () => {},
-				//subscribe: () => {},
-			},
 			statusGet: {
 				name: 'Status Get',
 				description: 'Returns the DSP Status and project name',
 				options: [],
 				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV1.statusGet)
+					self.addCmdtoQueue(cmd.ratcV1.statusGet)
 				},
 				//learn: () => {},
 				//subscribe: () => {},
 			},
-			controList: {
-				name: 'Control List',
-				description: 'Returns the defined control aliases',
-				options: [],
-				callback: () => {
-					self.addCmdtoQueue(SOM + cmd.ratcV1.controlList)
-				},
-				//learn: () => {},
-				//subscribe: () => {},
-			}, */
 			controlSet: {
 				name: 'Control Set',
 				description: 'Set the value of a control',

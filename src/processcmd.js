@@ -2,6 +2,10 @@ const { resp, cmd, alert, aliasSep, paramSep, rawAliasIdent } = require('./const
 
 module.exports = {
 	actionUpdate() {
+		if (this.actionTimer) {
+			clearTimeout(this.actionTimer)
+			delete this.actionTimer
+		}
 		this.updateActions() // export actions
 		this.updateFeedbacks() // export feedbacks
 	},
@@ -13,7 +17,7 @@ module.exports = {
 		}
 		this.actionTimer = setTimeout(() => {
 			this.actionUpdate()
-		}, 30000) 
+		}, 10000) 
 	},
 
 	stopActionUpdateTimer() {
@@ -22,7 +26,7 @@ module.exports = {
 	},
 
 	async processCmd(chunk) {
-		let reply = chunk.toString()
+		let reply = chunk.toString().trim()
 		//this.log('debug', `response recieved: ${reply}`)
 		if (chunk[0] == alert) {
 			this.log('warn', `${reply}`)
@@ -33,10 +37,11 @@ module.exports = {
 			//this.log('debug', `RATCv2 Control Alias: ${alias[1]}`)
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			if (alias[1].search(rawAliasIdent) >= 0) {
-				//dont create variables when in RAW mode as Companion GRINDS TO A HALT
+				//don't create variable definitions when in RAW mode
 				if (this.actionTimer) {
 					return true
 				} else {
+					//create 10 second timer to allow processing of raw control aliases before updating actions.
 					this.startActionUpdateTimer()
 					return true
 				}
@@ -55,7 +60,17 @@ module.exports = {
 			this.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
 			return true
 		}
-		let params = reply.split(' ')
+		let params = reply.split(paramSep)
+		let aliases = reply.split(aliasSep)
+		let valPos = []
+		let aliasValues = []
+		if (aliases.length == 3) {
+			valPos = aliases[2].split(paramSep)
+			valPos[1] = valPos[1] === undefined ? null : Number(valPos[1])
+		} else if (aliases.length == 5) {
+			valPos[0] = aliases[3]
+			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
+		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
 				this.sendCommand(this.config.username)
@@ -83,6 +98,10 @@ module.exports = {
 				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.valueIs:
+				this.log('info', `${reply}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV1.badArgumentCount:
 				this.log('warn', `${reply}`)
@@ -128,6 +147,9 @@ module.exports = {
 				break
 			case resp.ratcV2.valueIs:
 				this.log('debug', `${reply}`)
+				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
+				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV2.loggedIn:
 				this.updateStatus('ok', 'Logged in')
@@ -143,6 +165,7 @@ module.exports = {
 				break
 			case resp.ratcV2.quietModeEnabled:
 				this.log('warn', `${reply} - Quiet Mode Should be disabled for correct operation of this module`)
+				this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 				break
 			case resp.ratcV2.quietModeDisabled:
 				this.log('debug', `${reply}`)

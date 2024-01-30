@@ -3,7 +3,6 @@ export const keepAliveValue = '60'
 export const keepAliveInterval = 30000
 export const timeOutInterval = 15000
 export const groupSubscribeInterval = '5'
-export const SOM = ''
 export const EOM = '\r\n'
 export const paramSep = ' '
 export const aliasSep = '"'
