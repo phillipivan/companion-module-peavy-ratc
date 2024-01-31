@@ -27,13 +27,13 @@ Disable to use RATC v1 commands.
 
 Most actions require refernce to a control alias. The module will auto query and build a drop down list of the control aliases upon connection. You may enter a custom alias if working offline. Refer to Peavy's External Control User Guide for further details.
 
-All control aliases in use are added to the default change group so they can be polled periodically.
+All control aliases in use are added to the default change group so they can be polled periodically. If you use a variable without an associated action, you should manually add it to the default control group.
 
 To create a toggle button use the Control Position Invert action (RATCv2 only), and insert the variable for the controls position as its position value.
 
 ### Variables
 
-The detected control aliases, their values & positions are returned as variables. Control aliases containing white space ' ' will be replaced with '_'. Values are kept as strings and retain their units; positions are converted to a number. RATCv1 positions are returned as a %, ie 70.4, RATCv2 positions are returned as a decimal between 0 and 1, ie 0.704.
+The detected control aliases, their values & positions (RATCv2) are returned as variables. Control aliases containing white space ' ' will be replaced with '_'. Values are kept as strings and retain their units; positions are converted to a number. RATCv2 positions are returned as a decimal between 0 and 1, ie 0.704.
 
 Variables are not defined when in RATC v2 RAW mode to preseve system resources. They can still be referenced if you follow the pattern of yourModuleName:controlAliasValue_rawAlias or  yourModuleName:controlAliasPosition_rawAlias. However the '/' have been substituted with '_' so '//devices/55/controls/control_1' becomes '__devices_55_controls_control_1'
 They will not have a value assigned until used by an action.

@@ -36,7 +36,6 @@ module.exports = {
 		if (reply[0] === aliasSep) {
 			if (alias[1].search(rawAliasIdent) >= 0) {
 				//don't create variable definitions when in RAW mode
-				//alias[1] = alias[1].replace(' ', '_').replace('/','')
 				this.controlAliases.push({ id: alias[1], label: alias[1] })
 				if (this.actionTimer) {
 					return true
@@ -46,43 +45,37 @@ module.exports = {
 					return true
 				}
 			}
-			alias[1] = alias[1].replaceAll(/\/| /g,'_')
+			let newAlias = alias[1].replaceAll(/\/| /g,'_')
 			this.controlAliases.push({ id: alias[1], label: alias[1] })
 			this.varList.push(
-				{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
-				{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
-				{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
+				{ variableId: `controlAliasName_${newAlias}`, name: `Control Alias Name ${newAlias}` },
+				{ variableId: `controlAliasValue_${newAlias}`, name: `Control Alias Value ${newAlias}` },
+				{ variableId: `controlAliasPosition_${newAlias}`, name: `Control Alias Position ${newAlias}` },
 			)
 			this.updateActions() // export actions
 			this.updateFeedbacks() // export feedbacks
 			this.setVariableDefinitions(this.varList)
 			let aliasName = []
-			aliasName[`controlAliasName_${alias[1]}`] = alias[1]
+			aliasName[`controlAliasName_${newAlias}`] = alias[1]
 			this.setVariableValues(aliasName)
 			this.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
 			return true
 		}
 		let params = reply.split(paramSep)
 		let aliases = reply.split(aliasSep)
-		this.log('debug', `split aliases length ${aliases.length} value: ${aliases.toString()}`)
 		let valPos = []
 		let aliasValues = []
 		if (aliases.length == 3) {
-			//this.log('debug', `aliases.length 3 alias: ${aliases[1]} value: ${aliases[2]}`)
 			valPos = aliases[2].trim().split(paramSep)
-			for (let i = 1; i < valPos.length; i ++) {
-				valPos[i] = Number(valPos[i])
-				if (!isNaN(valPos[i])) {
-					valPos[1] = valPos[i]
-				}
-			}
+			valPos[1] = Number(valPos[1])
+			
 		} else if (aliases.length == 5) {
 			valPos[0] = aliases[3]
 			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
 		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
-				//this.sendCommand(this.config.username)
+				//this.sendCommand(this.config.username) - doing this will get stuck in a loop if user/pass is incorrect.
 				if (this.config.v2) {
 					this.updateStatus('error', 'Device in RATCv1 mode')
 					this.log('error', `Device in RATCv1 mode`)
@@ -90,10 +83,6 @@ module.exports = {
 				break
 			case resp.ratcV1.password:
 				//this.sendCommand(this.config.password)
-				if (this.config.v2) {
-					this.updateStatus('error', 'Device in RATCv1 mode')
-					this.log('error', `Device in RATCv1 mode`)
-				}
 				break
 			case resp.ratcV1.ratcVersion:
 				this.log('info', `${reply}`)
@@ -121,7 +110,9 @@ module.exports = {
 				aliases[1] = aliases[1].replaceAll(/\/| /g,'_')
 				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
-				aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				if (this.config.v2) {
+					aliasValues[`controlAliasPosition_${aliases[1]}`] = valPos[1]
+				}
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV1.badArgumentCount:
@@ -163,18 +154,17 @@ module.exports = {
 				this.log('debug', `${reply}`)
 				this.log('debug', `params: ${params.toString()}`)
 				if (params[1] == resp.ratcV1.aliasControlGroupList) {
-					alias[1] = alias[1].replaceAll(/\/| /g,'_')
+					alias[0] = alias[1].replaceAll(/\/| /g,'_')
 					this.controlAliases.push({ id: alias[1], label: alias[1] })
 					this.varList.push(
-						{ variableId: `controlAliasName_${alias[1]}`, name: `Control Alias Name ${alias[1]}` },
-						{ variableId: `controlAliasValue_${alias[1]}`, name: `Control Alias Value ${alias[1]}` },
-						{ variableId: `controlAliasPosition_${alias[1]}`, name: `Control Alias Position ${alias[1]}` },
+						{ variableId: `controlAliasName_${alias[0]}`, name: `Control Alias Name ${alias[0]}` },
+						{ variableId: `controlAliasValue_${alias[0]}`, name: `Control Alias Value ${alias[0]}` },
 					)
 					this.updateActions() // export actions
 					this.updateFeedbacks() // export feedbacks
 					this.setVariableDefinitions(this.varList)
 					let aliasName = []
-					aliasName[`controlAliasName_${alias[1]}`] = alias[1]
+					aliasName[`controlAliasName_${alias[0]}`] = alias[1]
 					this.setVariableValues(aliasName)
 					this.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias[1] + aliasSep)
 				}
