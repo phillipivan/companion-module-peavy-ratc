@@ -83,9 +83,17 @@ module.exports = {
 		switch (params[0]) {
 			case resp.ratcV1.username:
 				//this.sendCommand(this.config.username)
+				if (this.config.v2) {
+					this.updateStatus('error', 'Device in RATCv1 mode')
+					this.log('error', `Device in RATCv1 mode`)
+				}
 				break
 			case resp.ratcV1.password:
 				//this.sendCommand(this.config.password)
+				if (this.config.v2) {
+					this.updateStatus('error', 'Device in RATCv1 mode')
+					this.log('error', `Device in RATCv1 mode`)
+				}
 				break
 			case resp.ratcV1.ratcVersion:
 				this.log('info', `${reply}`)
