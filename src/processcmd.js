@@ -67,11 +67,7 @@ module.exports = {
 		let aliasValues = []
 		if (aliases.length == 3) {
 			valPos = aliases[2].trim().split(paramSep)
-			valPos[1] = Number(valPos[1])
-			
-		} else if (aliases.length == 5) {
-			valPos[0] = aliases[3]
-			valPos[1] = isNaN(Number(aliases[4])) ? null : Number(aliases[4])
+			valPos[1] = Number(valPos[valPos.length - 1])
 		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
@@ -159,6 +155,7 @@ module.exports = {
 					this.varList.push(
 						{ variableId: `controlAliasName_${alias[0]}`, name: `Control Alias Name ${alias[0]}` },
 						{ variableId: `controlAliasValue_${alias[0]}`, name: `Control Alias Value ${alias[0]}` },
+						//{ variableId: `controlAliasPosition_${alias[0]}`, name: `Control Alias Position ${alias[0]}` },
 					)
 					this.updateActions() // export actions
 					this.updateFeedbacks() // export feedbacks
@@ -200,7 +197,7 @@ module.exports = {
 				this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 				break
 			case resp.ratcV2.quietModeDisabled:
-				this.log('debug', `${reply}`)
+				this.log('info', `Quiet Mode Disabled: ${reply}`)
 				break
 			case resp.ratcV2.changeGroupControlAdded:
 				this.log('debug', `${reply}`)

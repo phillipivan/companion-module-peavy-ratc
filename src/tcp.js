@@ -41,7 +41,7 @@ module.exports = {
 	sendCommand(msg) {
 		if (msg !== undefined) {
 			if (this.socket !== undefined && this.socket.isConnected) {
-				this.log('debug', `Sending Command: ${msg}`)
+				//this.log('debug', `Sending Command: ${msg}`)
 				this.socket.send(msg + EOM)
 				return true
 			} else {

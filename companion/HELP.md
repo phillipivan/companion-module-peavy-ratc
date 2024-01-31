@@ -12,12 +12,13 @@ Enter the hostname or IP address of the DSP
 
 **Port**
 
-This should remain 1632 unless you are using port forwarding.
+This should normally normally remain 1632.
 
 **Username / Password**
 
 The RATC protocol specifics that a login must be performed after connection before control is allowed. This is transmitted in plain text.
 
+In nWare ensure that the user account has Network Control Access set to allowed.
 
 **Use V2**
 
@@ -33,9 +34,9 @@ To create a toggle button use the Control Position Invert action (RATCv2 only), 
 
 ### Variables
 
-The detected control aliases, their values & positions (RATCv2) are returned as variables. Control aliases containing white space ' ' will be replaced with '_'. Values are kept as strings and retain their units; positions are converted to a number. RATCv2 positions are returned as a decimal between 0 and 1, ie 0.704.
+The detected control aliases, their values & positions (RATCv2) are returned as variables. Variable names for control aliases containing white space ' ' will be replaced with '_'. Values are kept as strings and retain their units; positions are converted to a number. Note: Returned strings containing whitespace will be truncated at the first whitespace.
 
-Variables are not defined when in RATC v2 RAW mode to preseve system resources. They can still be referenced if you follow the pattern of yourModuleName:controlAliasValue_rawAlias or  yourModuleName:controlAliasPosition_rawAlias. However the '/' have been substituted with '_' so '//devices/55/controls/control_1' becomes '__devices_55_controls_control_1'
+Variables are not defined when in RATC v2 RAW mode to preseve system resources. They can still be referenced if you follow the pattern of (yourModuleName:controlAliasValue_rawAlias) or (yourModuleName:controlAliasPosition_rawAlias). However, in the rawAlias the '/' have been substituted with '_'. Ie, $(Nion_N3:controlAliasValue___devices_10_controls_hold_time)
 They will not have a value assigned until used by an action.
 
 ### Feedbacks
