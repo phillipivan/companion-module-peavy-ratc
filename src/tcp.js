@@ -1,5 +1,5 @@
 const { InstanceStatus, TCPHelper } = require('@companion-module/base')
-const { msgDelay, cmd, EOM, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval } = require('./consts.js')
+const { msgDelay, cmd, EOM, paramSep, keepAliveInterval, keepAliveValue, timeOutInterval, groupSubscribeInterval } = require('./consts.js')
 
 module.exports = {
 	addCmdtoQueue(msg) {
@@ -62,6 +62,7 @@ module.exports = {
 			this.addCmdtoQueue(cmd.ratcV2.keepAlive + paramSep + keepAliveValue)
 			this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 			this.addCmdtoQueue(cmd.ratcV2.controlList)
+			this.addCmdtoQueue(cmd.ratcV2.changeGroupSchedule + paramSep + groupSubscribeInterval)
 		} else {
 			this.sendCommand(this.config.username)
 			this.sendCommand(this.config.password)

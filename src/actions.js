@@ -1,5 +1,5 @@
 //const { Regex } = require('@companion-module/base')
-const { cmd, paramSep, aliasSep, groupSubscribeInterval } = require('./consts.js')
+const { cmd, paramSep, aliasSep } = require('./consts.js')
 
 
 module.exports = function (self) {
@@ -356,14 +356,10 @@ module.exports = function (self) {
 						return undefined
 					}
 					let cmdTx = cmd.ratcV2.changeGroupGet
-					let cmdTx2 = cmd.ratcV2.changeGroupSchedule
 					if (group !== '') {
 						cmdTx += paramSep + aliasSep + group + aliasSep
-						cmdTx2 += paramSep + aliasSep + group + aliasSep
 					}
 					self.addCmdtoQueue(cmdTx)
-					//subscribe to periodic changes from group
-					self.addCmdtoQueue(cmdTx2 + paramSep + groupSubscribeInterval)
 				},
 			},
 			changeGroupControlRemove: {

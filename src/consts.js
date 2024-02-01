@@ -1,8 +1,8 @@
 export const msgDelay = 50 // Always leave at least 50 ms open between commands
 export const keepAliveValue = '30'
-export const keepAliveInterval = 2000
-export const timeOutInterval = 15000
-export const groupSubscribeInterval = '5'
+export const keepAliveInterval = 10000
+export const timeOutInterval = 30000
+export const groupSubscribeInterval = '1'
 export const EOM = '\r\n'
 export const paramSep = ' '
 export const aliasSep = '"'
