@@ -69,6 +69,15 @@ module.exports = {
 			valPos = aliases[2].trim().split(paramSep)
 			valPos[1] = Number(valPos[valPos.length - 1])
 		}
+		if (params[params.length -1] == resp.ratcV1.username) {
+			if (this.config.v2) {
+				this.updateStatus('error', 'Device in RATCv1 mode')
+				this.log('error', `Device in RATCv1 mode`)
+				return false
+			} else {
+				return true
+			}
+		}
 		switch (params[0]) {
 			case resp.ratcV1.username:
 				//this.sendCommand(this.config.username) - doing this will get stuck in a loop if user/pass is incorrect.
