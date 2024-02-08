@@ -1,4 +1,4 @@
-export const msgDelay = 50 // Always leave at least 50 ms open between commands
+export const msgDelay = 20 // Always leave at least 20 ms open between commands
 export const keepAliveValue = '30'
 export const keepAliveInterval = 10000
 export const timeOutInterval = 30000
