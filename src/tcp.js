@@ -24,9 +24,7 @@ module.exports = {
 		this.log('debug', 'starting cmdTimer')
 		if (this.cmdTimer) {
 			clearTimeout(this.cmdTimer)
-			delete this.cmdTimer
 		}
-		clearTimeout(this.cmdTimer)
 		this.cmdTimer = setTimeout(() => {
 			this.processCmdQueue()
 		}, msgDelay)
@@ -34,8 +32,13 @@ module.exports = {
 
 	stopCmdQueue() {
 		this.log('debug', 'stopping cmdTimer')
-		clearTimeout(this.cmdTimer)
-		delete this.cmdTimer
+		if (this.cmdTimer){
+			clearTimeout(this.cmdTimer)
+			delete this.cmdTimer
+		} else {
+			this.log('debug', 'stopCmdQueue called, but this.cmdTimer does not exist')
+		}
+		
 	},
 
 	sendCommand(msg) {
@@ -94,8 +97,12 @@ module.exports = {
 
 	stopKeepAlive() {
 		this.log('debug', 'stopping keepAliveTimer')
-		clearTimeout(this.keepAliveTimer)
-		delete this.keepAliveTimer
+		if (this.keepAliveTimer) {
+			clearTimeout(this.keepAliveTimer)
+			delete this.keepAliveTimer
+		} else {
+			this.log('debug', 'stopKeepAlive called, but this.keepAliveTimer does not exist')
+		}
 	},
 
 	timeOut() {
@@ -119,8 +126,12 @@ module.exports = {
 
 	stopTimeOut() {
 		this.log('debug', 'stopping timeOutTimer')
-		clearTimeout(this.timeOutTimer)
-		delete this.timeOutTimer
+		if (this.timeOutTimer) {
+			clearTimeout(this.timeOutTimer)
+			delete this.timeOutTimer
+		} else {
+			this.log('debug', 'stopTimeOut called, but this.timeOutTimer does not exist')
+		}
 	},
 
 	initTCP() {
@@ -137,7 +148,7 @@ module.exports = {
 		if (this.config.host) {
 			this.log('debug', 'Creating New Socket')
 
-			this.updateStatus(`Connecting to RATC Host: ${this.config.host}:${this.config.port}`)
+			this.updateStatus(InstanceStatus.Connecting, `Connecting to Host: ${this.config.host}`)
 			this.socket = new TCPHelper(this.config.host, this.config.port)
 
 			this.socket.on('status_change', (status, message) => {
@@ -145,6 +156,7 @@ module.exports = {
 			})
 			this.socket.on('error', (err) => {
 				this.log('error', `Network error: ${err.message}`)
+				this.updateStatus(InstanceStatus.ConnectionFailure, err.message)
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
@@ -152,6 +164,7 @@ module.exports = {
 			})
 			this.socket.on('connect', () => {
 				this.log('info', `Connected to ${this.config.host}:${this.config.port}`)
+				this.updateStatus(InstanceStatus.Connecting, `Logging In`)
 				this.receiveBuffer = ''
 				this.queryOnConnect()
 			})

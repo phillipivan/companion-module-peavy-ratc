@@ -4,10 +4,8 @@ const UpdateActions = require('./actions.js')
 const UpdateFeedbacks = require('./feedbacks.js')
 const UpdateVariableDefinitions = require('./variables.js')
 const config = require('./config.js')
-//const choices = require('./choices.js')
 const tcp = require('./tcp.js')
 const processCmd = require('./processcmd.js')
-//const {} = require('./consts.js')
 
 class PEAVY_RATC extends InstanceBase {
 	constructor(internal) {
@@ -21,6 +19,11 @@ class PEAVY_RATC extends InstanceBase {
 	async init(config) {
 		this.updateStatus('Starting')
 		this.config = config
+		if (this.config.host === undefined || this.config.port === undefined) {
+			this.log('error', 'Host or port undefined')
+			this.updateStatus(InstanceStatus.BadConfig)
+			return undefined
+		}
 		this.initVariables()
 		this.startTimeOut()
 		this.updateActions() // export actions
@@ -37,7 +40,6 @@ class PEAVY_RATC extends InstanceBase {
 		this.stopTimeOut()
 		this.stopActionUpdateTimer()
 		if (this.socket) {
-			//this.sendCommand(EndSession) no clear disconnect
 			this.socket.destroy()
 		}
 		this.updateStatus(InstanceStatus.Disconnected)
