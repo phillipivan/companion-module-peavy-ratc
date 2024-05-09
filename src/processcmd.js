@@ -1,4 +1,5 @@
 const { resp, cmd, alert, aliasSep, paramSep, rawAliasIdent } = require('./consts.js')
+const { InstanceStatus } = require('@companion-module/base')
 
 module.exports = {
 	actionUpdate() {
@@ -71,7 +72,7 @@ module.exports = {
 		}
 		if (params[params.length -1] == resp.ratcV1.username) {
 			if (this.config.v2) {
-				this.updateStatus('error', 'Device in RATCv1 mode')
+				this.updateStatus(InstanceStatus.BadConfig, 'Device in RATCv1 mode')
 				this.log('error', `Device in RATCv1 mode`)
 				return false
 			} else {
@@ -82,7 +83,7 @@ module.exports = {
 			case resp.ratcV1.username:
 				//this.sendCommand(this.config.username) - doing this will get stuck in a loop if user/pass is incorrect.
 				if (this.config.v2) {
-					this.updateStatus('error', 'Device in RATCv1 mode')
+					this.updateStatus(InstanceStatus.BadConfig, 'Device in RATCv1 mode')
 					this.log('error', `Device in RATCv1 mode`)
 				}
 				break
@@ -93,7 +94,7 @@ module.exports = {
 				this.log('info', `${reply}`)
 				break
 			case resp.ratcV1.welcome:
-				this.updateStatus('ok', 'Logged in')
+				this.updateStatus(InstanceStatus.Ok, 'Logged in')
 				this.log('info', `${reply}`)
 				this.stopTimeOut()
 				this.startCmdQueue()
@@ -105,7 +106,7 @@ module.exports = {
 				return true
 			case resp.ratcV1.overflow:
 				this.log('error', `${reply}`)
-				this.updateStatus('error', 'Overflow')
+				this.updateStatus(InstanceStatus.UnknownError, 'Overflow')
 				return undefined	
 			case resp.ratcV1.statusIs:
 				this.log('info', `${reply}`)
@@ -143,14 +144,14 @@ module.exports = {
 				break
 			case resp.ratcV1.notRunning:
 				this.log('error', `${reply}`)
-				this.updateStatus('error', 'Project not running')
+				this.updateStatus(InstanceStatus.UnknownError, 'Project not running')
 				break
 			case resp.ratcV1.badCommand:
 				this.log('warn', `${reply}`)
 				break
 			case resp.ratcV1.loginFailed:
 				this.log('error', 'Password is incorrect')
-				this.updateStatus('error', 'Username / Password is incorrect')
+				this.updateStatus(InstanceStatus.BadConfig, 'Username / Password is incorrect')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
@@ -190,7 +191,7 @@ module.exports = {
 				this.setVariableValues(aliasValues)
 				break
 			case resp.ratcV2.loggedIn:
-				this.updateStatus('ok', 'Logged in')
+				this.updateStatus(InstanceStatus.Ok, 'Logged in')
 				this.log('info', 'OK: Logged In')
 				this.stopTimeOut()
 				this.startCmdQueue()
@@ -203,10 +204,12 @@ module.exports = {
 				break
 			case resp.ratcV2.quietModeEnabled:
 				this.log('warn', `${reply} - Quiet Mode Should be disabled for correct operation of this module`)
+				this.updateStatus(InstanceStatus.UnknownWarning, 'Quiet Mode Enabled')
 				this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 				break
 			case resp.ratcV2.quietModeDisabled:
 				this.log('info', `Quiet Mode Disabled: ${reply}`)
+				this.updateStatus(InstanceStatus.Ok, 'Quiet Mode Disabled')
 				break
 			case resp.ratcV2.changeGroupControlAdded:
 				this.log('debug', `${reply}`)
@@ -228,7 +231,7 @@ module.exports = {
 				break
 			case resp.ratcV2.overflow:
 				this.log('error', `${reply}`)
-				this.updateStatus('error', 'Overflow')
+				this.updateStatus(InstanceStatus.UnknownError, 'Overflow')
 				return undefined
 			case resp.ratcV2.unlistedControl:
 				this.log('warn', `${reply}`)
@@ -244,11 +247,12 @@ module.exports = {
 				break
 			case resp.ratcV2.notLoggedIn:
 				this.log('error', `${reply}`)
+				this.updateStatus(InstanceStatus.BadConfig, `${reply}`)
 				this.sendCommand(cmd.ratcV2.logIn + paramSep + this.config.username + paramSep + this.config.password)
 				break
 			case resp.ratcV2.loginFailed:
 				this.log('error', 'Password is incorrect')
-				this.updateStatus('error', 'Username / Password is incorrect')
+				this.updateStatus(InstanceStatus.BadConfig, 'Username / Password is incorrect')
 				this.stopCmdQueue()
 				this.stopKeepAlive()
 				this.startTimeOut()
