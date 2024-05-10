@@ -1,9 +1,14 @@
 const { Regex } = require('@companion-module/base')
+const { InstanceStatus } = require('@companion-module/base')
 
 module.exports = {
 	async configUpdated(config) {
-		//let oldConfig = this.config
 		this.config = config
+		if (this.config.host === undefined || this.config.port === undefined) {
+			this.log('error', 'Host or port undefined')
+			this.updateStatus(InstanceStatus.BadConfig)
+			return undefined
+		}
 		this.varList = []
 		this.controlAliases = []
 		this.initTCP()
