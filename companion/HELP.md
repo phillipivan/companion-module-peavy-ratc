@@ -45,6 +45,9 @@ No feedbacks are provided. The native Internal Variable Check Value feedback is 
 
 ## Version History
 
+### Version 1.0.3
+- Minor fixes
+
 ### Version 1.0.1
 - Better status updates
 - Minor fixes & typos
