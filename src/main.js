@@ -17,13 +17,8 @@ class PEAVY_RATC extends InstanceBase {
 		this.controlAliases = []
 	}
 	async init(config) {
-		this.updateStatus('Starting')
+		this.updateStatus(InstanceStatus.Connecting)
 		this.config = config
-		if (this.config.host === undefined || this.config.port === undefined) {
-			this.log('error', 'Host or port undefined')
-			this.updateStatus(InstanceStatus.BadConfig)
-			return undefined
-		}
 		this.initVariables()
 		this.startTimeOut()
 		this.updateActions() // export actions
