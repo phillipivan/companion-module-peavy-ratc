@@ -113,6 +113,29 @@ module.exports = {
 				break
 			case resp.ratcV1.valueIs:
 				this.log('info', `${reply}`)
+				if (this.isRecordingActions) {
+					if (this.config.v2) {
+						if (!isNaN(valPos[1])) {
+							this.recordAction(
+								{
+									actionId: 'controlPositionSet',
+									options: { alias: aliases[1], value: valPos[1] },
+								},
+								`controlPositionSet ${aliases[1]}`
+							)
+						}		
+					} else {
+						if (!isNaN(Number(valPos[0])))
+						this.recordAction(
+							{
+								actionId: 'controlSet',
+								options: { alias: aliases[1], value: valPos[0] },
+							},
+							`controlSet ${aliases[1]}`
+						)
+					}
+					
+				}
 				aliases[1] = aliases[1].replaceAll(/\/| /g,'_')
 				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
@@ -184,6 +207,29 @@ module.exports = {
 				break
 			case resp.ratcV2.valueIs:
 				this.log('debug', `${reply}`)
+				if (this.isRecordingActions) {
+					if (this.config.v2) {
+						if (!isNaN(valPos[1])) {
+							this.recordAction(
+								{
+									actionId: 'controlPositionSet',
+									options: { alias: aliases[1], value: valPos[1] },
+								},
+								`controlPositionSet ${aliases[1]}`
+							)
+						}		
+					} else {
+						if (!isNaN(Number(valPos[0])))
+						this.recordAction(
+							{
+								actionId: 'controlSet',
+								options: { alias: aliases[1], value: valPos[0] },
+							},
+							`controlSet ${aliases[1]}`
+						)
+					}
+					
+				}
 				aliases[1] = aliases[1].replace(' ', '_').replace('/','')
 				this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
 				aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
