@@ -48,6 +48,11 @@ class PEAVY_RATC extends InstanceBase {
 	initVariables() {
 	}
 
+	// Track whether actions are being recorded
+	handleStartStopRecordActions(isRecording) {
+		this.isRecordingActions = isRecording
+	}
+
 	updateActions() {
 		UpdateActions(this)
 	}
