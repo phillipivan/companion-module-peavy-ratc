@@ -1,4 +1,3 @@
-module.exports = async function (self) {
-	//let varList = []
+export default async function (self) {
 	self.setVariableDefinitions(self.varList)
 }

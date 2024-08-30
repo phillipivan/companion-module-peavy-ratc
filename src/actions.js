@@ -1,8 +1,6 @@
-//const { Regex } = require('@companion-module/base')
-const { cmd, paramSep, aliasSep } = require('./consts.js')
+import { cmd, paramSep, aliasSep } from './consts.js'
 
-
-module.exports = function (self) {
+export default function (self) {
 	if (self.config.v2) {
 		//RATCv2 actions
 		self.setActionDefinitions({
@@ -29,7 +27,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 				],
 				callback: async ({ options }) => {
@@ -63,7 +61,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'value',
@@ -71,9 +69,8 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number, up to 3 decimal places.'
+						tooltip: 'Variable must return a number, up to 3 decimal places.',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -111,7 +108,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'value',
@@ -119,7 +116,7 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a postive number, up to 3 decimal places.'
+						tooltip: 'Variable must return a postive number, up to 3 decimal places.',
 					},
 					{
 						id: 'pos',
@@ -131,7 +128,6 @@ module.exports = function (self) {
 							{ id: '--', label: 'Negative' },
 						],
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -144,7 +140,9 @@ module.exports = function (self) {
 						self.log('warn', `an invalid value has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + options.pos + val.toFixed(3))
+					self.addCmdtoQueue(
+						cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + options.pos + val.toFixed(3),
+					)
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -169,7 +167,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'string',
@@ -177,9 +175,8 @@ module.exports = function (self) {
 						label: 'String',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must not contain "'
+						tooltip: 'Variable must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -192,7 +189,9 @@ module.exports = function (self) {
 						self.log('warn', `an invalid string has been passed: ${string}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep)
+					self.addCmdtoQueue(
+						cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep,
+					)
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -217,7 +216,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'value',
@@ -225,9 +224,8 @@ module.exports = function (self) {
 						label: 'Position',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.'
+						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -240,7 +238,9 @@ module.exports = function (self) {
 						self.log('warn', `an invalid position has been passed: ${val}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
+					self.addCmdtoQueue(
+						cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3),
+					)
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -265,7 +265,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'value',
@@ -273,15 +273,15 @@ module.exports = function (self) {
 						label: 'Position',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.'
+						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.',
 					},
 					{
 						id: 'info',
 						type: 'static-text',
 						label: 'Explanation',
-						tooltip: 'Position will be set to 1 - Position. Enter the position variable of a button control to achieve a toggle action'
+						tooltip:
+							'Position will be set to 1 - Position. Enter the position variable of a button control to achieve a toggle action',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -295,7 +295,9 @@ module.exports = function (self) {
 						return undefined
 					}
 					val = 1 - val
-					self.addCmdtoQueue(cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
+					self.addCmdtoQueue(
+						cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3),
+					)
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -320,7 +322,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'changeGroup',
@@ -328,9 +330,8 @@ module.exports = function (self) {
 						label: 'Change Group',
 						default: '',
 						useVariables: true,
-						tooltip: 'Variable must not contain "'
+						tooltip: 'Variable must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -347,7 +348,7 @@ module.exports = function (self) {
 					if (group !== '') {
 						cmdTx += group + aliasSep + paramSep + aliasSep
 					}
-					self.addCmdtoQueue( cmdTx + alias + aliasSep)
+					self.addCmdtoQueue(cmdTx + alias + aliasSep)
 				},
 				subscribe: async (action) => {
 					let group = await self.parseVariablesInString(action.options.changeGroup)
@@ -375,7 +376,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'changeGroup',
@@ -383,9 +384,8 @@ module.exports = function (self) {
 						label: 'Change Group',
 						default: '',
 						useVariables: true,
-						tooltip: 'Variable must not contain "'
+						tooltip: 'Variable must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -402,7 +402,7 @@ module.exports = function (self) {
 					if (group !== '') {
 						cmdTx += group + aliasSep + paramSep + aliasSep
 					}
-					self.addCmdtoQueue( cmdTx )
+					self.addCmdtoQueue(cmdTx)
 				},
 				subscribe: async (action) => {
 					let group = await self.parseVariablesInString(action.options.changeGroup)
@@ -427,9 +427,8 @@ module.exports = function (self) {
 						label: 'Change Group',
 						default: '',
 						useVariables: true,
-						tooltip: 'Variable must not contain "'
+						tooltip: 'Variable must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let group = await self.parseVariablesInString(options.changeGroup)
@@ -442,7 +441,7 @@ module.exports = function (self) {
 					if (group !== '') {
 						cmdTx += paramSep + aliasSep + group + aliasSep
 					}
-					self.addCmdtoQueue( cmdTx )
+					self.addCmdtoQueue(cmdTx)
 				},
 				subscribe: async (action) => {
 					let group = await self.parseVariablesInString(action.options.changeGroup)
@@ -484,7 +483,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 				],
 				callback: async ({ options }) => {
@@ -518,7 +517,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'value',
@@ -526,9 +525,8 @@ module.exports = function (self) {
 						label: 'Value',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must return a number, up to 3 decimal places.'
+						tooltip: 'Variable must return a number, up to 3 decimal places.',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -566,7 +564,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 					{
 						id: 'string',
@@ -574,9 +572,8 @@ module.exports = function (self) {
 						label: 'String',
 						default: 1,
 						useVariables: true,
-						tooltip: 'Variable must not contain "'
+						tooltip: 'Variable must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -589,7 +586,9 @@ module.exports = function (self) {
 						self.log('warn', `an invalid string has been passed: ${string}`)
 						return undefined
 					}
-					self.addCmdtoQueue(cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep)
+					self.addCmdtoQueue(
+						cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep,
+					)
 				},
 				subscribe: async (action) => {
 					let alias = await self.parseVariablesInString(action.options.alias)
@@ -614,9 +613,8 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
-
 				],
 				callback: async ({ options }) => {
 					let alias = await self.parseVariablesInString(options.alias)
@@ -624,7 +622,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
 					}
-					self.addCmdtoQueue( cmd.ratcV1.changeGroupAddControl + paramSep + aliasSep + alias + aliasSep)
+					self.addCmdtoQueue(cmd.ratcV1.changeGroupAddControl + paramSep + aliasSep + alias + aliasSep)
 				},
 				subscribe: () => {
 					self.addCmdtoQueue(cmd.ratcV1.changeGroupGet)
@@ -643,7 +641,7 @@ module.exports = function (self) {
 						useVariables: true,
 						allowCustom: true,
 						minChoicesForSearch: 20,
-						tooltip: 'Alias must not contain "'
+						tooltip: 'Alias must not contain "',
 					},
 				],
 				callback: async ({ options }) => {
@@ -652,7 +650,7 @@ module.exports = function (self) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
 					}
-					self.addCmdtoQueue( cmd.ratcV1.changeGroupRemoveControl + paramSep + aliasSep + alias + aliasSep )
+					self.addCmdtoQueue(cmd.ratcV1.changeGroupRemoveControl + paramSep + aliasSep + alias + aliasSep)
 				},
 				subscribe: () => {
 					self.addCmdtoQueue(cmd.ratcV1.changeGroupGet)
@@ -661,8 +659,7 @@ module.exports = function (self) {
 			changeGroupClear: {
 				name: 'Change Group Clear',
 				description: 'The Change Group is cleared of all Control Aliases',
-				options: [
-				],
+				options: [],
 				callback: () => {
 					self.addCmdtoQueue(cmd.ratcV1.changeGroupClear)
 				},
@@ -672,5 +669,4 @@ module.exports = function (self) {
 			},
 		})
 	}
-
 }
