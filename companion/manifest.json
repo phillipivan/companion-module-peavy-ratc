@@ -21,6 +21,6 @@
 	},
 	"legacyIds": [],
 	"manufacturer": "Peavy",
-	"products": [ "NION n3", "NION n6", "NION nE", "NION nX"],
+	"products": ["NION n3", "NION n6", "NION nE", "NION nX"],
 	"keywords": ["Audio", "DSP", "Cobranet", "Dante"]
 }
