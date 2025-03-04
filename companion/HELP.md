@@ -51,6 +51,10 @@ The Action Recorder will translate any recieved numeric valueIs messages into Co
 
 ### Version 1.1.2
 
+- Parse local variables
+
+### Version 1.1.2
+
 - Use Node 22
 - Update dependencies
 
