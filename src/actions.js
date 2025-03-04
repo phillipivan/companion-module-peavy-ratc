@@ -24,22 +24,22 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlGet + paramSep + aliasSep + alias + aliasSep)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -58,7 +58,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -68,13 +68,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Value',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must return a number, up to 3 decimal places.',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let val = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let val = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -85,8 +85,8 @@ export default function (self) {
 					}
 					self.addCmdtoQueue(cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -105,7 +105,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -115,7 +115,7 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Value',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must return a postive number, up to 3 decimal places.',
 					},
 					{
@@ -129,9 +129,9 @@ export default function (self) {
 						],
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let val = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let val = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -144,8 +144,8 @@ export default function (self) {
 						cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + options.pos + val.toFixed(3),
 					)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -164,7 +164,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -174,13 +174,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'String',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let string = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let string = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -193,8 +193,8 @@ export default function (self) {
 						cmd.ratcV2.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep,
 					)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -213,7 +213,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -223,13 +223,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Position',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let val = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let val = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -242,8 +242,8 @@ export default function (self) {
 						cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3),
 					)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -262,7 +262,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -272,7 +272,7 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Position',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must return a number between 0 and 1, up to 3 decimal places.',
 					},
 					{
@@ -283,9 +283,9 @@ export default function (self) {
 							'Position will be set to 1 - Position. Enter the position variable of a button control to achieve a toggle action',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let val = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let val = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -299,8 +299,8 @@ export default function (self) {
 						cmd.ratcV2.controlPositionSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3),
 					)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -319,7 +319,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -329,13 +329,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Change Group',
 						default: '',
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let group = await self.parseVariablesInString(options.changeGroup)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let group = await context.parseVariablesInString(options.changeGroup)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -350,8 +350,8 @@ export default function (self) {
 					}
 					self.addCmdtoQueue(cmdTx + alias + aliasSep)
 				},
-				subscribe: async (action) => {
-					let group = await self.parseVariablesInString(action.options.changeGroup)
+				subscribe: async (action, context) => {
+					let group = await context.parseVariablesInString(action.options.changeGroup)
 					if (group.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid group has been passed: ${group}`)
 						return undefined
@@ -373,7 +373,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -383,13 +383,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Change Group',
 						default: '',
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let group = await self.parseVariablesInString(options.changeGroup)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let group = await context.parseVariablesInString(options.changeGroup)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -404,8 +404,8 @@ export default function (self) {
 					}
 					self.addCmdtoQueue(cmdTx)
 				},
-				subscribe: async (action) => {
-					let group = await self.parseVariablesInString(action.options.changeGroup)
+				subscribe: async (action, context) => {
+					let group = await context.parseVariablesInString(action.options.changeGroup)
 					if (group.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid group has been passed: ${group}`)
 						return undefined
@@ -426,12 +426,12 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Change Group',
 						default: '',
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let group = await self.parseVariablesInString(options.changeGroup)
+				callback: async ({ options }, context) => {
+					let group = await context.parseVariablesInString(options.changeGroup)
 
 					if (group.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid group has been passed: ${group}`)
@@ -443,8 +443,8 @@ export default function (self) {
 					}
 					self.addCmdtoQueue(cmdTx)
 				},
-				subscribe: async (action) => {
-					let group = await self.parseVariablesInString(action.options.changeGroup)
+				subscribe: async (action, context) => {
+					let group = await context.parseVariablesInString(action.options.changeGroup)
 					if (group.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid group has been passed: ${group}`)
 						return undefined
@@ -480,22 +480,22 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
 					}
 					self.addCmdtoQueue(cmd.ratcV1.controlGet + paramSep + aliasSep + alias + aliasSep)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -514,7 +514,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -524,13 +524,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'Value',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must return a number, up to 3 decimal places.',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let val = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let val = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -541,8 +541,8 @@ export default function (self) {
 					}
 					self.addCmdtoQueue(cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + val.toFixed(3))
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -561,7 +561,7 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
@@ -571,13 +571,13 @@ export default function (self) {
 						type: 'textinput',
 						label: 'String',
 						default: 1,
-						useVariables: true,
+						useVariables: { local: true },
 						tooltip: 'Variable must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
-					let string = Number(await self.parseVariablesInString(options.value))
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
+					let string = Number(await context.parseVariablesInString(options.value))
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -590,8 +590,8 @@ export default function (self) {
 						cmd.ratcV1.controlSet + paramSep + aliasSep + alias + aliasSep + paramSep + aliasSep + string + aliasSep,
 					)
 				},
-				subscribe: async (action) => {
-					let alias = await self.parseVariablesInString(action.options.alias)
+				subscribe: async (action, context) => {
+					let alias = await context.parseVariablesInString(action.options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -610,14 +610,14 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
@@ -638,14 +638,14 @@ export default function (self) {
 						label: 'Control Alias',
 						default: '',
 						choices: self.controlAliases,
-						useVariables: true,
+						useVariables: { local: true },
 						allowCustom: true,
 						minChoicesForSearch: 20,
 						tooltip: 'Alias must not contain "',
 					},
 				],
-				callback: async ({ options }) => {
-					let alias = await self.parseVariablesInString(options.alias)
+				callback: async ({ options }, context) => {
+					let alias = await context.parseVariablesInString(options.alias)
 					if (alias.indexOf(aliasSep) !== -1) {
 						self.log('warn', `an invalid alias has been passed: ${alias}`)
 						return undefined
