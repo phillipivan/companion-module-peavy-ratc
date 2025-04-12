@@ -1,6 +1,15 @@
 import { resp, cmd, alert, aliasSep, paramSep, rawAliasIdent } from './consts.js'
 import { InstanceStatus } from '@companion-module/base'
 
+/**
+ * Remove illegal characters from variable Ids
+ * @param {string} id variable id to sanitize
+ * @param {'' | '.' | '-' | '_'} substitute Char to replace illegal characters
+ * @since 1.1.4
+ */
+
+const sanitiseVariableId = (id, substitute = '_') => id.replaceAll(/[^a-zA-Z0-9-_.]/gm, substitute)
+
 export function actionUpdate() {
 	if (this.actionTimer) {
 		clearTimeout(this.actionTimer)
@@ -45,7 +54,7 @@ export async function processCmd(chunk) {
 				return true
 			}
 		}
-		let newAlias = alias[1].replaceAll(/\/| /g, '_')
+		let newAlias = sanitiseVariableId(alias[1])
 		this.controlAliases.push({ id: alias[1], label: alias[1] })
 		this.varList.push(
 			{ variableId: `controlAliasName_${newAlias}`, name: `Control Alias Name ${newAlias}` },
@@ -80,14 +89,14 @@ export async function processCmd(chunk) {
 	}
 	switch (params[0]) {
 		case resp.ratcV1.username:
-			//this.sendCommand(this.config.username) - doing this will get stuck in a loop if user/pass is incorrect.
+			//await this.sendCommand(this.config.username) - doing this will get stuck in a loop if user/pass is incorrect.
 			if (this.config.v2) {
 				this.updateStatus(InstanceStatus.BadConfig, 'Device in RATCv1 mode')
 				this.log('error', `Device in RATCv1 mode`)
 			}
 			break
 		case resp.ratcV1.password:
-			//this.sendCommand(this.config.password)
+			//await this.sendCommand(this.config.password)
 			break
 		case resp.ratcV1.ratcVersion:
 			this.log('info', `${reply}`)
@@ -134,7 +143,7 @@ export async function processCmd(chunk) {
 						)
 				}
 			}
-			aliases[1] = aliases[1].replaceAll(/\/| /g, '_')
+			aliases[1] = sanitiseVariableId(aliases[1])
 			this.log('debug', `control data for alias: ${aliases[1]} value: ${valPos[0]} position: ${valPos[1]}`)
 			aliasValues[`controlAliasValue_${aliases[1]}`] = valPos[0]
 			if (this.config.v2) {
@@ -181,7 +190,7 @@ export async function processCmd(chunk) {
 			this.log('debug', `${reply}`)
 			this.log('debug', `params: ${params.toString()}`)
 			if (params[1] == resp.ratcV1.aliasControlGroupList) {
-				alias[0] = alias[1].replaceAll(/\/| /g, '_')
+				alias[0] = sanitiseVariableId(alias[1])
 				this.controlAliases.push({ id: alias[1], label: alias[1] })
 				this.varList.push(
 					{ variableId: `controlAliasName_${alias[0]}`, name: `Control Alias Name ${alias[0]}` },
@@ -291,7 +300,7 @@ export async function processCmd(chunk) {
 		case resp.ratcV2.notLoggedIn:
 			this.log('error', `${reply}`)
 			this.updateStatus(InstanceStatus.BadConfig, `${reply}`)
-			this.sendCommand(cmd.ratcV2.logIn + paramSep + this.config.username + paramSep + this.config.password)
+			await this.sendCommand(cmd.ratcV2.logIn + paramSep + this.config.username + paramSep + this.config.password)
 			break
 		case resp.ratcV2.loginFailed:
 			this.log('error', 'Username / Password is incorrect')

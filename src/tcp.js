@@ -48,12 +48,11 @@ export function stopCmdQueue() {
 	}
 }
 
-export function sendCommand(msg) {
+export async function sendCommand(msg) {
 	if (msg !== undefined) {
 		if (this.socket !== undefined && this.socket.isConnected) {
 			//this.log('debug', `Sending Command: ${msg}`)
-			this.socket.send(msg + EOM)
-			return true
+			return await this.socket.send(msg + EOM)
 		} else {
 			this.log('warn', `Socket not connected, tried to send: ${msg}`)
 		}
@@ -64,7 +63,7 @@ export function sendCommand(msg) {
 }
 
 //queries made on initial connection.
-export function queryOnConnect() {
+export async function queryOnConnect() {
 	if (this.config.v2) {
 		let msg =
 			this.config.username === ''
@@ -72,15 +71,15 @@ export function queryOnConnect() {
 				: this.config.password === ''
 					? paramSep + this.config.username
 					: paramSep + this.config.username + paramSep + this.config.password
-		this.sendCommand(cmd.ratcV2.logIn + msg)
+		await this.sendCommand(cmd.ratcV2.logIn + msg)
 		this.addCmdtoQueue(cmd.ratcV2.statusGet)
 		this.addCmdtoQueue(cmd.ratcV2.keepAlive + paramSep + keepAliveValue)
 		this.addCmdtoQueue(cmd.ratcV2.quietModeDisable)
 		this.addCmdtoQueue(cmd.ratcV2.controlList)
 		this.addCmdtoQueue(cmd.ratcV2.changeGroupSchedule + paramSep + groupSubscribeInterval)
 	} else {
-		this.sendCommand(this.config.username)
-		this.sendCommand(this.config.password)
+		await this.sendCommand(this.config.username)
+		await this.sendCommand(this.config.password)
 	}
 }
 
@@ -174,11 +173,11 @@ export function initTCP() {
 			this.startTimeOut()
 			this.stopActionUpdateTimer()
 		})
-		this.socket.on('connect', () => {
+		this.socket.on('connect', async () => {
 			this.log('info', `Connected to ${this.config.host}:${this.config.port}`)
 			this.updateStatus(InstanceStatus.Connecting, `Logging In`)
 			this.receiveBuffer = ''
-			this.queryOnConnect()
+			await this.queryOnConnect()
 		})
 		this.socket.on('data', (chunk) => {
 			let i = 0,
