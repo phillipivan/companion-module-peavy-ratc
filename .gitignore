@@ -9,3 +9,4 @@ package-lock.json
 *.npa
 *.bak
 DEBUG-*
+peavy-ratc-*.tgz
